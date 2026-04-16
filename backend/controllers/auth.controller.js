@@ -56,7 +56,8 @@ export const signin = async(req, res, next) => {
         const validUser = await User.findOne({email})
     // if not signin
     if (!validUser) {
-        return next(errorHandler(400), "User not found")
+        return next(errorHandler(400, "User not found"))
+        
         
     }
     const validPassword = bcryptjs.compareSync(password, validUser.password)
@@ -68,7 +69,7 @@ export const signin = async(req, res, next) => {
         res
         .status(200)
         .cookie("accss_token", token,{ //jo hamko token milega use as a cookie ham send karenge
-        httpOnly: true,
+        httpOnly: true, 
         })
         .json(rest)
         
