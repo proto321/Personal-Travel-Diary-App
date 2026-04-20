@@ -68,7 +68,7 @@ export const signin = async(req, res, next) => {
 
         res
         .status(200)
-        .cookie("accss_token", token,{ //jo hamko token milega use as a cookie ham send karenge
+        .cookie("access_token", token,{ //jo hamko token milega use as a cookie ham send karenge
         httpOnly: true, 
         })
         .json(rest)

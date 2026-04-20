@@ -8,7 +8,7 @@ export const getUsers = async(req, res, next) => {
     if (!validUser) {
         return next(errorHandler(401, "Unauthorized"))
     }
-
+ 
     const {password: pass, ...rest} = validUser._doc
 
     res.status(200).json(rest)

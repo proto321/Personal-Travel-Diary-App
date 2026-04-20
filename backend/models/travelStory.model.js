@@ -13,7 +13,7 @@ const travelSchema = new mongoose.Schema({
     visitedLocation: {
         type: [String],
         default: []
-    },
+    }, 
     isFavorite: {
         type: Boolean,
         default: false

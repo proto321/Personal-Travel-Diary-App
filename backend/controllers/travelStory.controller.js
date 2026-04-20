@@ -35,4 +35,35 @@ export const addTravelStory = async (req, res, next) => {
     catch (error) {
         next(error);
     }
+
 }
+
+export const getAllTravelStory = async (req, res, next) => {
+    const userId = req.user.id;
+
+    try {
+        const travelStories = await TravelStory.find({ userId: userId }).sort({
+             isFavourite: -1 ,
+            });
+        res.status(200).json(travelStories);
+    } catch (error) {
+        next(error);
+    }
+
+}
+
+export const imageUpload = async(req, res, next) =>{
+    try {    
+        if (!req.file) {
+            return next(errorHandler(400, "No image uploaded"))
+        }
+
+        const imageUrl = `http://localhost:3000/uploads/${req.file.filename}`
+        //  /backend/uploads/
+
+        res.status(201).json({ imageUrl })
+    } catch (error) {
+        next(error)
+    }
+}
+ 
