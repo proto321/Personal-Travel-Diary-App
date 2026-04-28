@@ -39,7 +39,8 @@ app.use("/api/travel-story", travelStoryRoutes);
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads"))) // for asthetic files
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))) // for asthetic files and also assets folder
+app.use("/assets", express.static(path.join(__dirname, "assets"))) // for assets folder
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500
