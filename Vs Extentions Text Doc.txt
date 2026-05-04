@@ -1,0 +1,3 @@
+-auto rename tag(it basically control opening & closing tag means i.e if <div> then </div) or if <di> then </di>)
+-tailwindcss intellisence extention
+
