@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser';
 
 import path from "path"
+import cors from "cors"
 
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js"
@@ -22,6 +23,13 @@ mongoose.connect(process.env.MONGO_URI)
   });
 
   const app = express();
+
+  // Enable Cors for frontend (Replace with your frontend URL)
+  app.use(cors({
+    origin: "http://localhost:5173", // frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"], // allow CRUD operations
+    credentials: true, // allow cookies & authentication headers
+  }))
 
   app.use(cookieParser()); // for parsing cookies in incoming requests
 
