@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser';
 
 import path from "path"
-import cors from "cors"
+import cors from "cors" //npm i cors
 
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js"
