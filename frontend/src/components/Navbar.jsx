@@ -1,9 +1,29 @@
 // rafc
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Profile } from './Profile';
+import  axiosInstance  from '../utils/axiosInstance';
+import { signOutSuccess } from '../redux/slice/userSlice';
+import { useDispatch } from 'react-redux';
 
 export const Navbar = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+ 
+      const onLogout = async () => {
+        try {
+          const response = await axiosInstance.post('/user/signout/');
+
+          if(response.data){
+            dispatch(signOutSuccess());
+
+            navigate('/login');
+          } 
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
   return (
     <div className='bg-white flex items-center justify-between px-10 py-2 drop-shadow
      sticky top-0 z-10'>
@@ -14,7 +34,7 @@ export const Navbar = () => {
         </h1>
         </Link>
 
-        <Profile />
+        <Profile onLogout={onLogout} />
         </div>
     )
 }

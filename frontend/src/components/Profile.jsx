@@ -3,7 +3,7 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { getInitials } from '../utils/helper';
 
-export const Profile = () => {
+export const Profile = ({onLogout}) => {
     const { currentUser} = useSelector((state) => state.user);
 
   return (
@@ -16,7 +16,7 @@ export const Profile = () => {
         <div>
             <p className='text-lg font-medium'>{currentUser.username || ""}</p>
 
-            <button className='text-sm text-blue-600 underline'>Logout</button>
+            <button className='text-sm text-blue-600 underline' onClick={onLogout}>Logout</button>
         </div>
     </div>
   )
