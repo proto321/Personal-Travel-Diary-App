@@ -98,7 +98,7 @@ const Login = () => {
             />
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>  }
             
-              {loading ? (<span className="animate-pulse">Loading...</span>
+              {loading ? (<p className="animate-pulse w-full text-center btn-">LOADING...</p>
               ) : <button type="submit" className="btn-primary">
                 Login
               </button>}
