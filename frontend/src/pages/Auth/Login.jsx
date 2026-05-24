@@ -67,7 +67,8 @@ const Login = () => {
         className="container h-screen flex items-center justify-center
      px-50 mx-auto"
       >
-        <div className="w-2/4 h-[90vh] flex items-end bg-[url('https://images.pexels.com/photos/32665746/pexels-photo-32665746.jpeg')] bg-cover bg-center rounded-lg p-10  z-50">
+        <div className="w-2/4 h-[90vh] flex items-end bg-[url('https://images.pexels.com/photos/35176/pexels-photo.jpg')] bg-cover bg-center rounded-lg p-10  z-50">
+        {/* https://images.pexels.com/photos/32665746/pexels-photo-32665746.jpeg */}
           <div className="text-white ">
             <h4 className="text-2xl font-semibold leading-[58px]">
               Create Your Stories
@@ -89,7 +90,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            {/* alt+shift+f */}
+
 
             <PasswordInput
               value={password}
