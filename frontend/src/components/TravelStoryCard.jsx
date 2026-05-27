@@ -10,12 +10,15 @@ const TravelStoryCard = ({
   story,
   date,
   visitedLocation,
-  isFavourite,
+  isFavorite,
   onEdit,
   onClick,
   onFavoriteClick
 
 }) => {
+  
+  console.log(isFavorite)
+
   return (
     <div className='border border-state-200 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:shadow-slate-200
     transition-all ease-in-out relative cursor-pointer'>
@@ -29,7 +32,7 @@ const TravelStoryCard = ({
         <button className="w-12 h-12 flex items-center justify-center bg-white/400
         rounded-lg border border-white/30 absolute top-4 right-4 " onClick={onFavoriteClick}>
 
-          <FaHeart className={`icon-btn ${isFavourite ? "text-red-500": "text-white"
+          <FaHeart className={`icon-btn ${isFavorite ? "text-red-500": "text-white"
         } hover:text-red-500`} />
         </button>
 
