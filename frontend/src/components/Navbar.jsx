@@ -30,7 +30,9 @@ export const Navbar = () => {
         <Link to = {"/"}>
         <h1 className='font-bold text-2xl sm:text-2xl flex flex-wrap'>
             <span className='text-green-400'>Travel</span>
-            <span className='text-green-800'>Diary</span>
+            <span className='text-green-600'>Story</span>
+            <span className='text-green-800'>🌿</span>
+
         </h1>
         </Link>
 

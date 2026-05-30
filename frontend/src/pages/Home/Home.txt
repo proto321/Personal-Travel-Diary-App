@@ -7,6 +7,7 @@ import TravelStoryCard from '../../components/TravelStoryCard';
 import { ToastContainer, toast } from 'react-toastify';
 import { IoMdAdd } from "react-icons/io";
 import Modal from 'react-modal';
+// import { Modal } from 'mongoose';
 import { AddEditTravelStory } from '../../components/AddEditTravelStory';
 
 const Home = () => {
@@ -34,6 +35,7 @@ const Home = () => {
   //   }
   // }
 
+  // Get all travel stories
   const getAllTravelStories = async () => {
     try {
       const response = await axiosInstance.get(
@@ -41,12 +43,11 @@ const Home = () => {
   
       console.log("API Response:", response.data);
   
-      // if (response.data && response.data.stories) {
-      //   setAllStories(response.data.stories)
+      // if (response.data) {
+      //   setAllstories(response.data);
       // }
-  
-      if (response.data) {
-        setAllstories(response.data);
+      if (response.data && response.data.stories) {
+        setAllStories(response.data.stories)
       }
   
     } catch (error) {
@@ -106,7 +107,7 @@ const Home = () => {
               onFavoriteClick={() => updateIsFavorite(item)}
               />
             )
-          })} 
+          })}
           </div>
         ) : (
           <div>Empty Cards Here</div>
@@ -129,19 +130,10 @@ const Home = () => {
       },
     }}
     appElement={document.getElementById("root")}
-    className="w-[80vw] md:w-[40%] h-[80vh] bg-white rounded-lg mx-auto
-    mt-14 p-5 overflow-y-scroll scrollbar z-50;"
+    className="Modal-box"
     >
-      <AddEditTravelStory
-       storyInfo={openAddEditModal.data}
-       type={openAddEditModal.type}
-       onClose={() => {
-        setOpenAddEditModal({ isShown: false, type: "add", data: null })
-       }}
-       getAllTravelStories={getAllTravelStories}
-      />
+      <AddEditTravelStory />
     </Modal>
-
 
   <button className='w-16 h-16 flex items-center justify-center rounded-full
   bg-green-500 hover:bg-green-400 fixed right-10 bottom-10 cursor-pointer'
@@ -149,12 +141,12 @@ const Home = () => {
     setOpenAddEditModal({ isShown: true, type: "add", data: null })
   }}
   >
+
     
     <IoMdAdd className='text-[32px] text-white' />
   </button>
-
   <ToastContainer />
   </>
 }
 
-export default Home;
+export default Home; 
