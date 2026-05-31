@@ -34,7 +34,7 @@ const ImageSelector = ({image, setImage, handleDeleteImage }) => {
       setPreviewUrl(null)
     }
 
-    return ()=>{
+    return () => {
       if(previewUrl && typeof previewUrl === "string" && !image){
         URL.revokeObjectURL(previewUrl)
       }

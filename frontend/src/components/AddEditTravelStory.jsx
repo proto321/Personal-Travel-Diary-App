@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { IoMdAdd, IoMdClose } from 'react-icons/io'
-import { MdOutlineUpdate } from "react-icons/md";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdOutlineDeleteOutline, MdOutlineUpdate } from "react-icons/md";
 import DateSelector from './DateSelector';
 import ImageSelector from './ImageSelector';
 import { TagInput } from './TagInput';
@@ -61,13 +60,13 @@ export const AddEditTravelStory = ({
     }
   }
 
-  const updateTravelStory = async() => {
+  const updateTravelStory = async () => {
     const storyId = storyInfo._id
 
     try {
       let imageUrl = ""
 
-      const postData = {
+      let postData = {
         title,
         story,
         imageUrl: storyInfo.imageUrl || "",
@@ -78,7 +77,7 @@ export const AddEditTravelStory = ({
       }
 
       if(typeof storyImg === "object") {
-        // Upload new image if user has selected a new one
+        // Upload new image 
         const imgUploadRes = await uploadImage(storyImg)
 
         imageUrl = imgUploadRes.imageUrl || ""
@@ -134,7 +133,52 @@ export const AddEditTravelStory = ({
     }
   }
 
-  const handleDeleteStoryImage = () => {}
+  const handleDeleteStoryImage = async () => {
+    try {
+    // Deleting the image 
+    const deleteImageResponse = await axiosInstance.delete(
+      "/travel-story/delete-image/", 
+      {
+      params: {
+        imageUrl: storyInfo.imageUrl,
+      },
+    }
+    )
+  
+
+  if (deleteImageResponse.data) {
+    // const storyId = story._id
+    const storyId = storyInfo._id;
+
+
+    const postData = {
+      title,
+      story,
+      visitedLocation,
+      visitedDate: moment().valueOf(),
+      imageUrl: "",
+    }
+
+    // updating story
+
+    const response = await axiosInstance.post(
+      "/travel-story/edit-story/" + storyId,
+      postData 
+    )
+
+    if (response.data){
+      toast.success("Image deleted successfully!")
+
+      setStoryImg(null)
+
+      getAllTravelStories()
+    }
+
+    setStoryImg(null)
+  } }catch (error) {
+    console.log(error);
+  }
+  }
 
   return (
     <div className='relative'>
@@ -150,7 +194,7 @@ export const AddEditTravelStory = ({
               <button className="btn-small cursor-pointer" onClick={handleAddOrUpdateClick}>
               <IoMdAdd className="text-lg" /> ADD STORY
           </button> 
-            ):(
+            ) : (
               <>
               <button
                 className='btn-small '
@@ -161,7 +205,7 @@ export const AddEditTravelStory = ({
 
               <button
                 className='btn-small btn-delete' >
-                <MdDeleteOutline className="text-lg" /> DELETE STORY
+                <MdOutlineDeleteOutline className="text-lg" /> DELETE STORY
               </button>
               </>
             )}
@@ -182,7 +226,7 @@ export const AddEditTravelStory = ({
             <label className='input-label'>TITLE</label>
 
             <input type="text" className='text-2xl text-slate-900 outline-none'
-            placeholder='Once Upon A Time... '
+            placeholder='Enter the Story Title... '
             value={title}
             onChange={(e) => setTitle(e.target.value)}
              />
