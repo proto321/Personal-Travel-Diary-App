@@ -36,7 +36,7 @@ pt-9'>
   }}
   >
 
-    <IoMdClose className="text-xl text-blue-900" />
+    <IoMdClose className="text-xl text-blue-900 cursor-pointer" />
   </button>
 
   <DayPicker

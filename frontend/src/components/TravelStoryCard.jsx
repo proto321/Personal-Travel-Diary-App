@@ -20,7 +20,7 @@ const TravelStoryCard = ({
   console.log(isFavorite)
 
   return (
-    <div className='border border-state-200 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:shadow-slate-200
+    <div className='border border-slate-200 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:shadow-slate-200
     transition-all ease-in-out relative cursor-pointer'>
       <img
        src={imageUrl} 
@@ -50,7 +50,7 @@ const TravelStoryCard = ({
           <p className='text-sm text-slate-600 mt-2'>{story?.slice(0, 100)}</p>
 
           <div className='inline-flex items-center gap-2 text-[13px]
-          bg-cyan-200/40 rounded mt-3 px-2 py-1'>
+          bg-green-200/40 rounded mt-3 px-2 py-1'>
               <MdOutlineAddLocationAlt className='text-sm' />
 
               {visitedLocation.map((item, index) =>
