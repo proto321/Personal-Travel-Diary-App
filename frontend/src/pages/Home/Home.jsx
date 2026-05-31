@@ -9,6 +9,7 @@ import { IoMdAdd } from "react-icons/io";
 import Modal from 'react-modal';
 import { AddEditTravelStory } from '../../components/AddEditTravelStory';
 import { ViewTravelStory } from './ViewTravelStory';
+import { set } from 'mongoose';
 
 const Home = () => {
     const [allStories, setAllstories] = useState([])
@@ -61,7 +62,13 @@ const Home = () => {
   }
 
   //Handle Edit Story
-  const handleEdit = async (data) => {  }
+  const handleEdit = async (data) => {
+     setOpenAddEditModal({
+       isShown: true, 
+       type: "edit", 
+       data 
+      })
+    }
 
   const handleViewStory = (data) => { 
     setOpenViewModal({ isShown: true, data })
@@ -171,7 +178,10 @@ const Home = () => {
         onClose={() => {
           setOpenViewModal((prevState) => ({ ...prevState, isShown: false}))
         }}
-        onEditClick={() => {}}
+        onEditClick={() => {
+          setOpenViewModal((prevState) => ({ ...prevState, isShown: false}))
+          handleEdit(openViewModal.data || null)
+        }}
         onDeleteClick={() => {}}
       />
     </Modal>
