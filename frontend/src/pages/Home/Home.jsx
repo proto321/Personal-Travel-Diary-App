@@ -1,7 +1,6 @@
 //rafce
 import React, { useState, useEffect } from 'react';
 import { Navbar }  from '../../components/Navbar';
-// import Navbar from "../../components/Navbar"
 import axiosInstance from '../../utils/axiosInstance';
 import TravelStoryCard from '../../components/TravelStoryCard';
 import { ToastContainer, toast } from 'react-toastify';
@@ -9,10 +8,15 @@ import { IoMdAdd } from "react-icons/io";
 import Modal from 'react-modal';
 import { AddEditTravelStory } from '../../components/AddEditTravelStory';
 import { ViewTravelStory } from './ViewTravelStory';
-import { set } from 'mongoose';
+import EmptyCards from '../../components/EmptyCards';
+import { get } from 'mongoose';
 
 const Home = () => {
     const [allStories, setAllstories] = useState([])
+
+    const [searchQuery, setSearchQuery] = useState("")
+
+    const [filterType, setFilterType] = useState() 
 
     // console.log(allStories)
 
@@ -28,19 +32,6 @@ const Home = () => {
     })
 
   // Get all travel stories
-  // const getAllTravelStories = async () => {
-  //   try{
-  //     const response = await axiosInstance.get('/travel-story/get-all') 
-
-  //     if (response.data && response.data.stories) {
-  //       setAllstories(response.data.stories)
-
-  //     }
-  //   } catch (error) {
-  //     console.log("Something went wrong. Please try again.");
-  //   }
-  // }
-
   const getAllTravelStories = async () => {
     try {
       const response = await axiosInstance.get(
@@ -101,7 +92,7 @@ const Home = () => {
         const response = await axiosInstance.delete(
           "/travel-story/delete-story/" + storyId)
           
-          if (response.data && response.data.error) {
+          if (response.data && !response.data.error) {
             toast.success("Story deleted successfully!")
 
             setOpenViewModal((prevState) => ({ ...prevState, isShown: false }))
@@ -113,6 +104,31 @@ const Home = () => {
       }
     };
 
+    // Search story
+    const onSearchStory = async(query) => {
+      try {
+        const response = await axiosInstance.get(
+          "/travel-story/search", {
+            params: {
+              query: query,
+            },
+          })
+
+          if (response.data && response.data.stories) {
+            setFilterType("search")
+            setAllstories(response.data.stories)
+          }
+      } catch (error) {
+        console.log("Something went wrong. Please try again.");
+      }
+    }
+
+    // Clear search
+    const handleClearSearch = () => {
+      setFilterType("")
+      getAllTravelStories()
+    }
+
   useEffect(() => {
     getAllTravelStories()
 
@@ -120,7 +136,12 @@ const Home = () => {
 }, [])
   
   return <>
-  <Navbar />
+  <Navbar
+   searchQuery={searchQuery} 
+   setSearchQuery={setSearchQuery}
+   onSearchNote={onSearchStory} 
+   handleClearSearch={handleClearSearch}
+    />
 
   <div className='container mx-auto py-10'>
     <div className='flex gap-7'>
@@ -146,7 +167,16 @@ const Home = () => {
           })} 
           </div>
         ) : (
-          <div>Empty Cards Here</div>
+          <EmptyCards imgSrc={"https://images.pexels.com/photos/5706021/pexels-photo-5706021.jpeg"
+        }
+        message={"Start creating your travel stories by clicking the button below"}
+        setOpenAddEditModal={() =>
+          setOpenAddEditModal({
+            isShown: true,
+            type: "add",
+            data: null,
+          })}
+        />
         )}
       </div>
 
