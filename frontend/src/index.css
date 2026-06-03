@@ -3,7 +3,7 @@
 
 @theme {
   --color-primary: #03d65e,
-  --color-secondary: #EF863E,
+  --color-secondary: #14B8A6,
 }
 
 /* Custom scrollbar styles */
@@ -13,12 +13,12 @@
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgb(118, 4, 224);
+    background-color: rgb(3, 214, 94); /* #03D65E */
     border-radius: 4px;
 }
 
-.scrollbar::-webkit-scrollbar-track{
-    background-color: rgb(245, 198, 126);
+.scrollbar::-webkit-scrollbar-track {
+    background-color: rgb(209, 250, 229); /* #D1FAE5 */
 }
 
 @layer components {
@@ -27,11 +27,11 @@
     }
 
     .btn-primary {
-        @apply w-full text-sm font-medium text-white bg-blue-600 shadow-lg shadow-green-200/50 p-[10px] rounded-full my-1 hover:bg-green-100 hover:text-blue-500
+        @apply w-full text-sm font-medium text-white bg-green-600 shadow-lg shadow-green-200/50 p-[10px] rounded-full my-1 hover:bg-green-100 hover:text-green-500
     }
 
     .btn-light {
-        @apply bg-green-50 text-blue-500 shadow-green-100/0 border-green-100 hover:bg-blue-600 hover:text-white
+        @apply bg-green-50 text-green-500 shadow-green-100/0 border-green-100 hover:bg-green-600 hover:text-white
     }
 
     .login-ui-box {
