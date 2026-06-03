@@ -9,7 +9,9 @@ import Modal from 'react-modal';
 import { AddEditTravelStory } from '../../components/AddEditTravelStory';
 import { ViewTravelStory } from './ViewTravelStory';
 import EmptyCards from '../../components/EmptyCards';
-import { get } from 'mongoose';
+import { DayPicker } from 'react-day-picker';
+import moment from 'moment';
+import FilterInfoTitle from '../../components/FilterInfoTitle';
 
 const Home = () => {
     const [allStories, setAllstories] = useState([])
@@ -17,6 +19,8 @@ const Home = () => {
     const [searchQuery, setSearchQuery] = useState("")
 
     const [filterType, setFilterType] = useState() 
+
+    const [dateRange, setDateRange] = useState({ from: null, to: null })
 
     // console.log(allStories)
 
@@ -129,6 +133,42 @@ const Home = () => {
       getAllTravelStories()
     }
 
+    // Handle filter travel story by date range
+    const filterStoriesByDate = async (day) => {
+      try {
+        const startDate = day.from ? moment(day.from).valueOf() : null
+
+        const endDate = day.to ? moment(day.to).valueOf() : null
+
+        if(startDate && endDate){
+          const response = await axiosInstance.get(
+            "/travel-story/filter", {
+              params: { startDate, endDate }, 
+            })
+
+            if (response.data && response.data.stories) {
+              setFilterType("date")
+              setAllstories(response.data.stories)
+            }
+        }
+      } catch (error) {
+        console.log("Something went wrong. Please try again.");
+      }
+    }
+
+    // Handle date range click
+    const handleDayClick = (day) => {
+      setDateRange(day)
+      filterStoriesByDate(day)
+    }
+
+    const resetFilter = () => {
+      setDateRange({ from: null, to: null })
+      setFilterType("")
+      getAllTravelStories()
+    }
+
+
   useEffect(() => {
     getAllTravelStories()
 
@@ -144,6 +184,14 @@ const Home = () => {
     />
 
   <div className='container mx-auto py-10'>
+    <FilterInfoTitle
+     filterType={filterType} 
+     filterDate={dateRange}
+     onClear={() => {
+      resetFilter()
+    }}
+    />
+
     <div className='flex gap-7'>
       <div className='flex-1'>
         {allStories.length > 0 ? (
@@ -181,6 +229,18 @@ const Home = () => {
       </div>
 
       <div className='w-[320px]'></div>
+          <div className='bg-white border border-slate-200 shadow-lg
+          shadow-slate-200/60 rounded-lg'>
+            <div className='p-3'>
+              <DayPicker
+               captionLayout='dropdown' 
+               mode='range'
+               selected={dateRange}
+               onSelect={handleDayClick}
+               pagedNavigation
+               />
+            </div>
+          </div>
     </div>
   </div>
 
@@ -191,7 +251,7 @@ const Home = () => {
     onRequestClose={() => {}}
     style={{
       overlay: {
-        backgroundColor: "rgba(0,0,0,0.2",
+        backgroundColor: "rgba(0,0,0,0.2)",
         zIndex: 999,
       },
     }}
