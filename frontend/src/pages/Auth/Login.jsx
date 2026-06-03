@@ -1,11 +1,11 @@
 //rafce
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PasswordInput from "../../components/PasswordInput";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { validateEmail } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
-import { signInStart, signInSuccess } from "../../redux/slice/userSlice";
+import { signInStart, signInSuccess, signInFailure } from "../../redux/slice/userSlice";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const {loading} = useSelector((state) => state.user)
+  const {loading, currentUser} = useSelector((state) => state.user)
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent form submission
@@ -45,8 +45,13 @@ const Login = () => {
           dispatch(signInSuccess(response.data));
           
           navigate("/");
+         } else {
+          dispatch(signInFailure("An unexpected error occurred! Please try again."));
          } 
+
         } catch (error) {
+          dispatch(signInFailure("An unexpected error occurred! Please try again."));
+
           
           // error.response && error.response.data && error.response.data.message
           // error?.response?.data?.message
@@ -59,7 +64,15 @@ const Login = () => {
          } else {
           setError("Something went wrong. Please try again.")
          }
-        } }
+        } 
+      }
+
+        useEffect(() => {
+          if(!loading && currentUser) {
+            navigate("/")
+          }
+        }, [currentUser] )
+
     return (
     <div className="h-screen bg-green-100 overflow-hidden relative ">
       <div className="login-ui-box right-10 -top-40" />
@@ -100,7 +113,7 @@ const Login = () => {
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>  }
             
               {loading ? (<p className="animate-pulse w-full text-center btn-">LOADING...</p>
-              ) : <button type="submit" className="btn-primary">
+              ) : <button type="submit" className="btn-primary cursor-pointer">
                 Login
               </button>}
 
@@ -108,7 +121,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="btn-primary btn-light"
+              className="btn-primary btn-light cursor-pointer"
               onClick={() => navigate("/sign-up")}
             >
               CREATE ACCOUNT

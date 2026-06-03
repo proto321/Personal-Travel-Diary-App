@@ -16,7 +16,7 @@ export const Profile = ({onLogout}) => {
         <div>
             <p className='text-lg font-medium'>{currentUser.username || ""}</p>
 
-            <button className='text-sm text-blue-600 underline' onClick={onLogout}>Logout</button>
+            <button className='text-sm text-blue-600 underline cursor-pointer' onClick={onLogout}>Logout</button>
         </div>
     </div>
   )

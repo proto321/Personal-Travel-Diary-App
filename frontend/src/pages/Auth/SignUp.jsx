@@ -1,5 +1,5 @@
 //rafce
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PasswordInput from "../../components/PasswordInput";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
@@ -15,7 +15,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const {loading} = useSelector((state) => state.user)
+  const {loading, currentUser} = useSelector((state) => state.user)
 
   const handleSignUp = async (e) => {
     e.preventDefault(); // Prevent form submission
@@ -66,6 +66,13 @@ const SignUp = () => {
           setError("Something went wrong. Please try again.")
          }
         } }
+
+        useEffect(() => {
+          if(!loading && currentUser) {
+            navigate("/")
+          }
+        }, [currentUser] )
+
     return (
     <div className="h-screen bg-green-100 overflow-hidden relative ">
       <div className="login-ui-box right-10 -top-40" />
@@ -113,7 +120,7 @@ const SignUp = () => {
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>  }
             
               {loading ? (<p className="animate-pulse w-full text-center btn-">LOADING...</p>
-              ) : <button type="submit" className="btn-primary">
+              ) : <button type="submit" className="btn-primary cursor-pointer">
                 SIGN UP
               </button>}
 
@@ -121,7 +128,7 @@ const SignUp = () => {
 
             <button
               type="submit"
-              className="btn-primary btn-light"
+              className="btn-primary btn-light cursor-pointer"
               onClick={() => navigate("/login")}
             >
               LOGIN
